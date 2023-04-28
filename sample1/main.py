@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from enum import Enum
+from typing import Union
+from pydantic import BaseModel
 
 
 app = FastAPI()
@@ -61,4 +63,28 @@ async def get_model(model_name: ModelName):  # API request parameter is forced t
 @app.get("/files/{file_path:path}")
 async def read_file(file_path: str):
     return {"file_path": file_path}
+
+
+# Query parameters, which is a parameter appended to URL like /home/user/?room=0&status=open
+# You can test by following URL:
+# http://127.0.0.1:8000/items/query/?skip=20&limit=1000
+@app.get("/items/query/")
+async def read_item_by_query_parameters(skip: int = 0, limit: int = 10):
+    return {"message": "this is a test of query parameter",
+            "skip": skip,
+            "limit": limit}
+
+
+# Request body
+class Item(BaseModel):
+    name: str
+    description: Union[str, None] = None
+    price: float
+    tax: Union[float, None] = None
+
+
+@app.post("/items/request_body/")
+async def create_item(item: Item):
+    return item
+
 
