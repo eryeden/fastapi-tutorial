@@ -32,3 +32,12 @@ poetry add fastapi[all]
 
 Running the above command will install `fastapi` and also `uvicron`.
 `uvicron` is a kind of webserver. `uvicron` will host FastAPI.
+
+
+## Tutorial
+To execute the tutorial code:
+```bash
+cd sample1
+uvicorn main:app --reload
+```
+
